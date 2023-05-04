@@ -38,7 +38,7 @@ type Entry interface {
 	Prepare(methods ...string)
 }
 type ginEntry struct {
-	g      gin.RouterGroup
+	g      *gin.RouterGroup
 	logger logf.Logger
 	path   string
 	acts   []HandleFunc
@@ -86,12 +86,12 @@ type ginActor struct {
 
 type ginRouter struct {
 	logger logf.Logger
-	g      gin.RouterGroup
+	g      *gin.Engine
 }
 
 var _ Router = &ginRouter{}
 
-func GinRouter(r gin.RouterGroup, logger logf.Logger) Router {
+func GinRouter(r *gin.Engine, logger logf.Logger) Router {
 	return &ginRouter{logger: logger, g: r}
 }
 
@@ -107,7 +107,7 @@ func (r ginRouter) ON(path string, acts ...HandleFunc) Entry {
 	return ginEntry{
 		path:   path,
 		logger: r.logger,
-		g:      r.g,
+		g:      &r.g.RouterGroup,
 		acts:   acts,
 	}
 }
