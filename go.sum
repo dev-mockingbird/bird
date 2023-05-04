@@ -11,8 +11,8 @@ github.com/dev-mockingbird/errors v0.0.4 h1:rxREyO8kErbvQWMZ+vKc52RQXHeR+jkCi9RA
 github.com/dev-mockingbird/errors v0.0.4/go.mod h1:qAWn4fOG/CCrer66kphOnxnGFK6UiMK56iSu2W7yFiE=
 github.com/dev-mockingbird/logf v0.0.6 h1:kunBbfPvYBzQ8D24VWnDtTi9qDdjwtlsFzN5XJ92vmQ=
 github.com/dev-mockingbird/logf v0.0.6/go.mod h1:TPw7PNt4Q1QETsveQaaACox7FDs5nLTlnivDVemToRA=
-github.com/dev-mockingbird/validate v0.0.5 h1:EO50TVvEZsK5zVJolbcC46ApAT6mJHf9s9pb40hNO5w=
-github.com/dev-mockingbird/validate v0.0.5/go.mod h1:YxQYok1g8R+VuvUO+oMsB1QGZzlbuFREgjpUWAR7lTU=
+github.com/dev-mockingbird/validate v0.0.6 h1:jL67g63m8PZ1g95PdqstCTulHRP87SkDjt50/KSWGo0=
+github.com/dev-mockingbird/validate v0.0.6/go.mod h1:YxQYok1g8R+VuvUO+oMsB1QGZzlbuFREgjpUWAR7lTU=
 github.com/frankban/quicktest v1.14.3 h1:FJKSZTDHjyhriyC81FLQ0LY93eSai0ZyR/ZIkd3ZUKE=
 github.com/gin-contrib/sse v0.1.0 h1:Y/yl/+YNO8GZSjAhjMsSuLt29uWRFHdHYUb5lYOV9qE=
 github.com/gin-contrib/sse v0.1.0/go.mod h1:RHrZQHXnP2xjPF+u1gW/2HnVO7nvIa9PG3Gm+fLHvGI=

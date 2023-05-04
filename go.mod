@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/dev-mockingbird/errors v0.0.4
 	github.com/dev-mockingbird/logf v0.0.6
-	github.com/dev-mockingbird/validate v0.0.5
+	github.com/dev-mockingbird/validate v0.0.6
 	github.com/gin-gonic/gin v1.9.0
 	github.com/golang/mock v1.6.0
 	github.com/google/uuid v1.3.0
