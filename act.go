@@ -145,6 +145,7 @@ func (g ginActor) Get(key string) (any, bool) {
 func (g ginActor) Write(statusCode int, data any) {
 	g.Header("Request-Id", g.RequestId())
 	g.JSON(statusCode, data)
+	g.Abort()
 }
 
 func (g ginActor) GetRequest() *http.Request {
