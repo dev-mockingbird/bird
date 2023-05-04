@@ -53,9 +53,13 @@ func ErrorOccurred(err error, defaultcode string, msgs ...string) ResponseBody {
 	code := defaultcode
 	if len(codes) > 0 {
 		code = codes[0]
-	}
-	if msg == "" && len(msgs) > 0 {
+		if msg == "" && len(msgs) > 0 {
+			msg = msgs[0]
+		}
+	} else if len(msgs) > 0 {
 		msg = msgs[0]
+	} else {
+		msg = code
 	}
 	return ResponseBody{
 		Code: code,
