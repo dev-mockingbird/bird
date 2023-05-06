@@ -76,6 +76,7 @@ func (entry ginEntry) Prepare(methods ...string) {
 type Router interface {
 	Use(...HandleFunc)
 	ON(path string, act ...HandleFunc) Entry
+	HttpHandler() http.Handler
 }
 
 type ginActor struct {
@@ -110,6 +111,10 @@ func (r ginRouter) ON(path string, acts ...HandleFunc) Entry {
 		g:      &r.g.RouterGroup,
 		acts:   acts,
 	}
+}
+
+func (r ginRouter) HttpHandler() http.Handler {
+	return r.g
 }
 
 var _ Actor = &ginActor{}

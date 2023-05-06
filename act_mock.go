@@ -268,6 +268,20 @@ func (m *MockRouter) EXPECT() *MockRouterMockRecorder {
 	return m.recorder
 }
 
+// HttpHandler mocks base method.
+func (m *MockRouter) HttpHandler() http.Handler {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "HttpHandler")
+	ret0, _ := ret[0].(http.Handler)
+	return ret0
+}
+
+// HttpHandler indicates an expected call of HttpHandler.
+func (mr *MockRouterMockRecorder) HttpHandler() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HttpHandler", reflect.TypeOf((*MockRouter)(nil).HttpHandler))
+}
+
 // ON mocks base method.
 func (m *MockRouter) ON(path string, act ...HandleFunc) Entry {
 	m.ctrl.T.Helper()
