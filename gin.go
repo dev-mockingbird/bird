@@ -81,6 +81,10 @@ func (r ginRouter) ON(path string, acts ...HandleFunc) Entry {
 	}
 }
 
+func (g ginRouter) HttpHandler() http.Handler {
+	return g.g
+}
+
 var _ Actor = &ginActor{}
 
 func GinActor(ctx *gin.Context, logger logf.Logger) *ginActor {

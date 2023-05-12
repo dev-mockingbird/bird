@@ -82,6 +82,10 @@ func (r echoRouter) ON(path string, acts ...HandleFunc) Entry {
 	}
 }
 
+func (g echoRouter) HttpHandler() http.Handler {
+	return g.g
+}
+
 var _ Actor = &echoActor{}
 
 func EchoActor(ctx echo.Context, logger logf.Logger) *echoActor {
