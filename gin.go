@@ -18,6 +18,10 @@ type ginEntry struct {
 	acts   []HandleFunc
 }
 
+type GinContextGetter interface {
+	GetContext() *gin.Context
+}
+
 func constructGinActor(ctx *gin.Context, logger logf.Logger) Actor {
 	reqId := ctx.Request.Header.Get("Request-Id")
 	if reqId == "" {
@@ -127,6 +131,10 @@ func (g ginActor) Next() {
 
 func (g ginActor) GetRequest() *http.Request {
 	return g.Request
+}
+
+func (g ginActor) GetContext() *gin.Context {
+	return g.Context
 }
 
 func (g ginActor) RequestId() string {

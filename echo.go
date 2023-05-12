@@ -18,6 +18,10 @@ type echoEntry struct {
 	acts   []HandleFunc
 }
 
+type EchoContextGetter interface {
+	GetContext() echo.Context
+}
+
 func constructEchoActor(ctx echo.Context, logger logf.Logger) Actor {
 	reqId := ctx.Request().Header.Get("Request-Id")
 	if reqId == "" {
@@ -145,6 +149,10 @@ func (g echoActor) GetRequest() *http.Request {
 
 func (g echoActor) RequestId() string {
 	return g.Context.Request().Header.Get("Request-Id")
+}
+
+func (g echoActor) GetContext() echo.Context {
+	return g.Context
 }
 
 func (g echoActor) GetResponseWriter() http.ResponseWriter {
