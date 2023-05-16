@@ -12,7 +12,7 @@ import (
 )
 
 type echoEntry struct {
-	g      *echo.Echo
+	g      *echo.Group
 	logger logf.Logger
 	path   string
 	acts   []HandleFunc
@@ -22,7 +22,7 @@ type EchoContextGetter interface {
 	GetContext() echo.Context
 }
 
-func constructEchoActor(ctx echo.Context, logger logf.Logger) Actor {
+func constructEchoActor(ctx echo.Context, logger logf.Logger, next echo.HandlerFunc) Actor {
 	reqId := ctx.Request().Header.Get("Request-Id")
 	if reqId == "" {
 		reqId = uuid.NewString()
@@ -30,14 +30,14 @@ func constructEchoActor(ctx echo.Context, logger logf.Logger) Actor {
 	}
 	method := strings.ToUpper(ctx.Request().Method)
 	path := ctx.Request().URL.Path
-	actor := EchoActor(ctx, logger.Prefix(fmt.Sprintf("%s %s[%s]: ", method, path, reqId)))
+	actor := EchoActor(ctx, logger.Prefix(fmt.Sprintf("%s %s[%s]: ", method, path, reqId)), next)
 	return actor
 }
 
 func (entry echoEntry) Prepare(methods ...string) {
 	for _, act := range entry.acts {
 		h := func(ctx echo.Context) error {
-			act(constructEchoActor(ctx, entry.logger))
+			act(constructEchoActor(ctx, entry.logger, nil))
 			return nil
 		}
 		if len(methods) == 0 {
@@ -57,20 +57,22 @@ type echoActor struct {
 
 type echoRouter struct {
 	logger logf.Logger
-	g      *echo.Echo
+	e      *echo.Echo
+	g      *echo.Group
 }
 
 var _ Router = &echoRouter{}
 
-func EchoRouter(r *echo.Echo, logger logf.Logger) Router {
-	return &echoRouter{logger: logger, g: r}
+func EchoRouter(e *echo.Echo, logger logf.Logger) Router {
+	return &echoRouter{logger: logger, e: e, g: e.Group("")}
 }
 
 func (r echoRouter) Use(acts ...HandleFunc) {
 	for _, act := range acts {
 		r.g.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 			return func(ctx echo.Context) error {
-				act(constructEchoActor(ctx, r.logger))
+				actor := constructEchoActor(ctx, r.logger, next)
+				act(actor)
 				return nil
 			}
 		})
@@ -86,17 +88,31 @@ func (r echoRouter) ON(path string, acts ...HandleFunc) Entry {
 	}
 }
 
+func (r echoRouter) Group(base string) Router {
+	return echoRouter{
+		logger: r.logger.Prefix(base + ": "),
+		e:      r.e,
+		g:      r.e.Group(base),
+	}
+}
+
 func (g echoRouter) HttpHandler() http.Handler {
-	return g.g
+	return g.e
 }
 
 var _ Actor = &echoActor{}
 
-func EchoActor(ctx echo.Context, logger logf.Logger) *echoActor {
+func EchoActor(ctx echo.Context, logger logf.Logger, next ...echo.HandlerFunc) *echoActor {
 	return &echoActor{
 		Context:   ctx,
 		logger:    logger,
 		validator: validate.GetValidator(validate.Logger(logger)),
+		next: func() echo.HandlerFunc {
+			if len(next) > 0 {
+				return next[0]
+			}
+			return nil
+		}(),
 	}
 }
 

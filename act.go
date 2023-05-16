@@ -37,6 +37,7 @@ type Entry interface {
 
 type Router interface {
 	Use(...HandleFunc)
+	Group(string) Router
 	ON(path string, act ...HandleFunc) Entry
 	HttpHandler() http.Handler
 }

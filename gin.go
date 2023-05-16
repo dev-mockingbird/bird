@@ -59,13 +59,14 @@ type ginActor struct {
 
 type ginRouter struct {
 	logger logf.Logger
+	r      *gin.RouterGroup
 	g      *gin.Engine
 }
 
 var _ Router = &ginRouter{}
 
-func GinRouter(r *gin.Engine, logger logf.Logger) Router {
-	return &ginRouter{logger: logger, g: r}
+func GinRouter(g *gin.Engine, logger logf.Logger) Router {
+	return &ginRouter{logger: logger, g: g, r: &g.RouterGroup}
 }
 
 func (r ginRouter) Use(acts ...HandleFunc) {
@@ -76,11 +77,15 @@ func (r ginRouter) Use(acts ...HandleFunc) {
 	}
 }
 
+func (r ginRouter) Group(base string) Router {
+	return &ginRouter{r: r.g.Group(base), g: r.g, logger: r.logger.Prefix(base + ": ")}
+}
+
 func (r ginRouter) ON(path string, acts ...HandleFunc) Entry {
 	return ginEntry{
 		path:   path,
 		logger: r.logger,
-		g:      &r.g.RouterGroup,
+		g:      r.r,
 		acts:   acts,
 	}
 }
