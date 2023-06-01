@@ -124,6 +124,15 @@ func (g ginActor) Get(key string) (any, bool) {
 	return g.Context.Get(key)
 }
 
+func (g ginActor) Bind(obj any) error {
+	if err := g.Context.Bind(obj); err != nil {
+		g.logger.Logf(logf.Error, "bind object: %s", err.Error())
+		return err
+	}
+	g.logger.Logf(logf.Trace, "get input object: %#v", obj)
+	return nil
+}
+
 func (g ginActor) Write(statusCode int, data any) {
 	g.Header("Request-Id", g.RequestId())
 	g.JSON(statusCode, data)
