@@ -30,7 +30,7 @@ func constructGinActor(ctx *gin.Context, logger logf.Logger) Actor {
 	}
 	method := strings.ToUpper(ctx.Request.Method)
 	path := ctx.Request.URL.Path
-	actor := GinActor(ctx, logger.Prefix(fmt.Sprintf("%s %s[%s]: ", method, path, reqId)))
+	actor := GinActor(ctx, logger.Prefix(fmt.Sprintf("%s %s [%s]: ", method, path, reqId)))
 	return actor
 }
 
