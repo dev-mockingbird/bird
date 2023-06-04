@@ -48,18 +48,21 @@ func Unauthorized(err error, msg ...string) ResponseBody {
 // for untagged err, it can't produce the err detail as message for client
 // only the tagged most ancient ancestor error can produce client message and code
 func ErrorOccurred(err error, defaultcode string, msgs ...string) ResponseBody {
-	err = errors.Ancestor(err)
-	codes, msg := errors.Parse(err)
+	if err = errors.LastTagged(err); err == nil {
+		return ResponseBody{Code: defaultcode, Data: Msg(func() string {
+			if len(msgs) > 0 {
+				return msgs[0]
+			}
+			return defaultcode
+		}())}
+	}
 	code := defaultcode
-	if len(codes) > 0 {
-		code = codes[0]
-		if msg == "" && len(msgs) > 0 {
-			msg = msgs[0]
-		}
-	} else if len(msgs) > 0 {
-		msg = msgs[0]
-	} else {
-		msg = code
+	if tags := errors.Tags(err); len(tags) > 0 {
+		code = tags[0]
+	}
+	msg := code
+	if e := errors.Unwrap(err); e != nil {
+		msg = e.Error()
 	}
 	return ResponseBody{
 		Code: code,

@@ -3,9 +3,9 @@ module github.com/dev-mockingbird/bird
 go 1.19
 
 require (
-	github.com/dev-mockingbird/errors v0.0.4
+	github.com/dev-mockingbird/errors v0.0.11
 	github.com/dev-mockingbird/logf v0.0.6
-	github.com/dev-mockingbird/validate v0.0.6
+	github.com/dev-mockingbird/validate v0.0.16
 	github.com/gin-gonic/gin v1.9.0
 	github.com/golang/mock v1.6.0
 	github.com/google/uuid v1.3.0
@@ -16,6 +16,7 @@ require (
 require (
 	github.com/bytedance/sonic v1.8.0 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
+	github.com/ettle/strcase v0.1.1 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
@@ -40,7 +41,7 @@ require (
 	golang.org/x/crypto v0.6.0 // indirect
 	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/sys v0.5.0 // indirect
-	golang.org/x/text v0.7.0 // indirect
+	golang.org/x/text v0.9.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
