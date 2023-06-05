@@ -27,7 +27,7 @@ type Actor interface {
 	GetRequest() *http.Request
 	GetResponseWriter() http.ResponseWriter
 	Validate(data any, rules ...validate.Rules) error
-	Write(statusCode int, data any)
+	Write(statusCode int, data any) error
 	Logger() logf.Logger
 }
 

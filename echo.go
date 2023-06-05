@@ -154,9 +154,9 @@ func (g echoActor) Get(key string) (any, bool) {
 	return ret, true
 }
 
-func (g echoActor) Write(statusCode int, data any) {
+func (g echoActor) Write(statusCode int, data any) error {
 	g.Context.Request().Header.Add("Request-Id", g.RequestId())
-	g.Context.JSON(statusCode, data)
+	return g.Context.JSON(statusCode, data)
 }
 
 func (g echoActor) GetRequest() *http.Request {

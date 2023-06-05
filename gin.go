@@ -133,10 +133,14 @@ func (g ginActor) Bind(obj any) error {
 	return nil
 }
 
-func (g ginActor) Write(statusCode int, data any) {
+func (g ginActor) Write(statusCode int, data any) error {
 	g.Header("Request-Id", g.RequestId())
 	g.JSON(statusCode, data)
+	if len(g.Errors) > 0 {
+		return g.Errors[len(g.Errors)-1]
+	}
 	g.Abort()
+	return nil
 }
 
 func (g ginActor) Next() {
