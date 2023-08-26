@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/dev-mockingbird/logf"
 	"github.com/dev-mockingbird/validate"
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 type ginEntry struct {
@@ -25,7 +25,7 @@ type GinContextGetter interface {
 func constructGinActor(ctx *gin.Context, logger logf.Logger) Actor {
 	reqId := ctx.Request.Header.Get("Request-Id")
 	if reqId == "" {
-		reqId = uuid.NewString()
+		reqId = fmt.Sprintf("%d", time.Now().Unix())
 		ctx.Request.Header.Add("Request-Id", reqId)
 	}
 	method := strings.ToUpper(ctx.Request.Method)
